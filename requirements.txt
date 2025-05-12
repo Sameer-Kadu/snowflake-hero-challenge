@@ -10,5 +10,4 @@ streamlit-option-menu
 streamlit-extras
 streamlit-ace
 streamlit-analytics
-streamlit-plotly-chart
 streamlit-embeds
