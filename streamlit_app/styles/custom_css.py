@@ -11,7 +11,10 @@ def apply_custom_css():
         z-index: 9999;
     }
     
-     
+     /* Hide Streamlit header */
+        header[data-testid="stHeader"] {
+            display: none;
+        }
 
         /* Hide Streamlit footer */
         footer[data-testid="stFooter"] {
