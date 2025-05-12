@@ -10,3 +10,10 @@ streamlit-option-menu
 streamlit-extras
 streamlit-ace
 streamlit-analytics
+numpy
+folium
+pyyaml
+python-dotenv
+typing
+dataclasses
+logging
