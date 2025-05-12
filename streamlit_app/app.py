@@ -9,6 +9,7 @@ from streamlit_folium import folium_static
 import folium
 from styles.custom_css import apply_custom_css
 from config.snowflake_config import get_snowflake_connection
+from modules.data_insights import data_insights_dashboard
 
 # Page configuration
 st.set_page_config(
@@ -76,7 +77,7 @@ with st.sidebar:
     # Navigation options
     page = st.radio(
         "Navigate to",
-        ["🏠 Dashboard", "🗺️ Tourism Insights", "🎭 Cultural Sites", "📊 Analysis", "ℹ️ About"]
+        ["🏠 Dashboard", "🗺️ Tourism Insights", "🎭 Cultural Sites", "📊 Data Insights", "📊 Analysis", "ℹ️ About"]
     )
    
     
@@ -710,6 +711,13 @@ elif page == "🎭 Cultural Sites":
                 <p><b>Impact:</b> <span style='color:{impact_color};'>{initiative['impact']}</span></p>
             </div>
             """, unsafe_allow_html=True)
+
+elif page == "📊 Data Insights":
+    st.markdown("<h1 class='main-header'>Data Insights Dashboard</h1>", unsafe_allow_html=True)
+    st.markdown("<p class='sub-header'>Real-time analysis of cultural tourism data</p>", unsafe_allow_html=True)
+    
+    # Call the data insights dashboard function
+    data_insights_dashboard()
 
 # Analysis page
 elif page == "📊 Analysis":

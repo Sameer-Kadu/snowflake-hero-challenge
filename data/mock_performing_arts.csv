@@ -1,0 +1,32 @@
+state,art_form,practitioners,events_per_year,endangered_status,government_support
+Tamil Nadu,Bharatanatyam,853,18,False,True
+Tamil Nadu,Therukoothu,584,9,False,False
+Kerala,Kathakali,303,8,False,True
+Kerala,Mohiniyattam,232,17,True,False
+Kerala,Koodiyattam,160,5,True,False
+Uttar Pradesh,Kathak,703,8,False,True
+Uttar Pradesh,Nautanki,977,22,False,True
+Odisha,Odissi,936,21,False,False
+Odisha,Chhau,244,9,True,False
+Odisha,Pala,499,24,False,True
+Andhra Pradesh,Kuchipudi,254,19,True,False
+Andhra Pradesh,Burrakatha,307,12,False,True
+Manipur,Manipuri,143,8,True,True
+Manipur,Lai Haraoba,163,8,True,True
+Assam,Sattriya,966,11,False,False
+Assam,Bihu,380,5,False,False
+Assam,Ankiya Naat,436,21,False,False
+Gujarat,Garba,612,17,False,False
+Gujarat,Dandiya Raas,247,12,True,True
+Punjab,Bhangra,856,21,False,False
+Punjab,Giddha,793,18,False,True
+West Bengal,Chhau,996,21,False,False
+West Bengal,Baul,278,23,True,False
+West Bengal,Jatra,306,11,False,False
+Karnataka,Yakshagana,706,11,False,False
+Karnataka,Dollu Kunitha,538,23,False,False
+Maharashtra,Lavani,334,19,False,False
+Maharashtra,Tamasha,574,19,False,False
+Rajasthan,Ghoomar,823,8,False,True
+Rajasthan,Kalbelia,919,24,False,True
+Rajasthan,Teratali,130,15,True,False

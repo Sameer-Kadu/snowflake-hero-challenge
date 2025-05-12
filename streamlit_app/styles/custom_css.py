@@ -27,7 +27,7 @@ def apply_custom_css():
         }
     
         .block-container {
-            padding: 0rem 5rem 0rem 5rem; /* top, right, bottom, left */
+            padding: 0rem 0rem 0rem 0rem; /* top, right, bottom, left */
         }
         
         /* Main theme colors */
