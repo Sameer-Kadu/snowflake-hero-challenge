@@ -1,32 +1,32 @@
 state,art_form,practitioners,events_per_year,endangered_status,government_support
-Tamil Nadu,Bharatanatyam,853,18,False,True
-Tamil Nadu,Therukoothu,584,9,False,False
-Kerala,Kathakali,303,8,False,True
-Kerala,Mohiniyattam,232,17,True,False
-Kerala,Koodiyattam,160,5,True,False
-Uttar Pradesh,Kathak,703,8,False,True
-Uttar Pradesh,Nautanki,977,22,False,True
-Odisha,Odissi,936,21,False,False
-Odisha,Chhau,244,9,True,False
-Odisha,Pala,499,24,False,True
-Andhra Pradesh,Kuchipudi,254,19,True,False
-Andhra Pradesh,Burrakatha,307,12,False,True
-Manipur,Manipuri,143,8,True,True
-Manipur,Lai Haraoba,163,8,True,True
-Assam,Sattriya,966,11,False,False
-Assam,Bihu,380,5,False,False
-Assam,Ankiya Naat,436,21,False,False
-Gujarat,Garba,612,17,False,False
-Gujarat,Dandiya Raas,247,12,True,True
-Punjab,Bhangra,856,21,False,False
-Punjab,Giddha,793,18,False,True
-West Bengal,Chhau,996,21,False,False
-West Bengal,Baul,278,23,True,False
-West Bengal,Jatra,306,11,False,False
-Karnataka,Yakshagana,706,11,False,False
-Karnataka,Dollu Kunitha,538,23,False,False
-Maharashtra,Lavani,334,19,False,False
-Maharashtra,Tamasha,574,19,False,False
-Rajasthan,Ghoomar,823,8,False,True
-Rajasthan,Kalbelia,919,24,False,True
-Rajasthan,Teratali,130,15,True,False
+Tamil Nadu,Bharatanatyam,199,24,True,True
+Tamil Nadu,Therukoothu,431,16,False,True
+Kerala,Kathakali,556,21,False,False
+Kerala,Mohiniyattam,158,23,True,False
+Kerala,Koodiyattam,854,19,False,False
+Uttar Pradesh,Kathak,960,5,False,False
+Uttar Pradesh,Nautanki,165,10,True,True
+Odisha,Odissi,904,9,False,False
+Odisha,Chhau,168,13,True,False
+Odisha,Pala,885,10,False,True
+Andhra Pradesh,Kuchipudi,198,23,True,False
+Andhra Pradesh,Burrakatha,483,8,False,True
+Manipur,Manipuri,375,20,False,True
+Manipur,Lai Haraoba,177,22,True,True
+Assam,Sattriya,781,6,False,True
+Assam,Bihu,438,23,False,False
+Assam,Ankiya Naat,250,15,True,False
+Gujarat,Garba,719,24,False,True
+Gujarat,Dandiya Raas,537,22,False,True
+Punjab,Bhangra,511,16,False,True
+Punjab,Giddha,644,9,False,False
+West Bengal,Chhau,197,22,True,True
+West Bengal,Baul,576,21,False,False
+West Bengal,Jatra,249,14,True,True
+Karnataka,Yakshagana,575,20,False,True
+Karnataka,Dollu Kunitha,942,7,False,False
+Maharashtra,Lavani,153,18,True,True
+Maharashtra,Tamasha,668,13,False,False
+Rajasthan,Ghoomar,753,18,False,True
+Rajasthan,Kalbelia,769,14,False,True
+Rajasthan,Teratali,647,12,False,True

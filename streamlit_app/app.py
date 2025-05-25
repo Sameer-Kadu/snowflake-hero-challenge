@@ -10,14 +10,20 @@ import folium
 from styles.custom_css import apply_custom_css
 from config.snowflake_config import get_snowflake_connection
 from modules.data_insights import data_insights_dashboard
+from streamlit_chat import message
+import snowflake.connector
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from typing import Optional
 
 # Page configuration
 st.set_page_config(
     page_title="India Cultural Explorer",
     page_icon="🪔",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="auto",
 )
+
 
 apply_custom_css()
 
@@ -77,7 +83,8 @@ with st.sidebar:
     # Navigation options
     page = st.radio(
         "Navigate to",
-        ["🏠 Dashboard", "🗺️ Tourism Insights", "🎭 Cultural Sites", "📊 Data Insights", "📊 Analysis", "ℹ️ About"]
+        ["🏠 Dashboard", "🗺️ Tourism Insights", "🎭 Cultural Sites", "📊 Data Insights", 
+         "📊 Analysis", "ℹ️ About"]  # Added Tourism Chatbot
     )
    
     
@@ -113,7 +120,8 @@ with st.sidebar:
     
     st.markdown("---")
     st_lottie(culture_animation, height=200, key="sidebar_animation")
-
+    
+    
 # Filter the data based on selections
 def filter_tourism_data():
     filtered_df = tourism_df.copy()
@@ -145,6 +153,7 @@ def filter_cultural_data():
             filtered_df = filtered_df[filtered_df['REGION'].isin(selected_states)]
     
     return filtered_df
+
 
 # Dashboard page
 if page == "🏠 Dashboard":
@@ -1143,8 +1152,9 @@ elif page == "ℹ️ About":
 
 # Add a footer
 st.markdown("""
-<div class='footer' style='margin-bottom:-500px'>
-    <p>© 2025 India Cultural Explorer | Developed for YourStory | Snowflake - Hero Challenge</p>
-    <p>Showcasing India's cultural heritage through data-driven insights</p>
-</div>
-""", unsafe_allow_html=True)
+    <div class='footer' style='margin-bottom:-500px'>
+        <p>© 2025 India Cultural Explorer | Developed for YourStory | Snowflake - Hero Challenge</p>
+        <p>Showcasing India's cultural heritage through data-driven insights</p>
+    </div>
+    """, unsafe_allow_html=True)
+

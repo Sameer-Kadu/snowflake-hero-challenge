@@ -15,12 +15,79 @@ def fetch_data_gov_api(api_url):
     Returns a pandas DataFrame or None if the request fails
     """
     try:
+        # Add API key if not already in the URL
+        if "api-key=" not in api_url:
+            api_url += "&api-key=YOUR_API_KEY" if "?" in api_url else "?api-key=YOUR_API_KEY"
+        
+        # Add format parameter if not already in the URL
+        if "format=" not in api_url:
+            api_url += "&format=json"
+        
+        # Make the request
         response = requests.get(api_url)
+        
         if response.status_code == 200:
             # Try to parse response based on content type
             content_type = response.headers.get('content-type', '')
+            
+            # Process JSON response
             if 'json' in content_type:
-                return pd.DataFrame(response.json())
+                json_data = response.json()
+                
+                # Check if response contains records
+                if 'records' in json_data and isinstance(json_data['records'], list):
+                    if len(json_data['records']) > 0:
+                        try:
+                            # Handle non-uniform records
+                            records = json_data['records']
+                            
+                            # Find all possible keys across all records
+                            all_keys = set()
+                            for record in records:
+                                all_keys.update(record.keys())
+                            
+                            # Create normalized records with all fields
+                            normalized_records = []
+                            for record in records:
+                                normalized_record = {key: record.get(key, None) for key in all_keys}
+                                normalized_records.append(normalized_record)
+                            
+                            return pd.DataFrame(normalized_records)
+                        except Exception as e:
+                            st.error(f"Error normalizing API data: {e}")
+                            
+                            # Last resort: try to load data one record at a time
+                            try:
+                                df_list = []
+                                for record in records:
+                                    df_list.append(pd.DataFrame([record]))
+                                if df_list:
+                                    return pd.concat(df_list, ignore_index=True)
+                                return None
+                            except:
+                                return None
+                    else:
+                        st.warning(f"API returned zero records: {json_data.get('message', 'No message')}")
+                        return None
+                # Try direct conversion if no 'records' field
+                else:
+                    try:
+                        # Try different approaches to parse the data
+                        if isinstance(json_data, dict):
+                            # If it's just a dict, convert to DataFrame directly
+                            return pd.DataFrame([json_data])
+                        elif isinstance(json_data, list):
+                            # If it's a list, convert directly
+                            return pd.DataFrame(json_data)
+                        else:
+                            st.error(f"Unexpected JSON structure: {type(json_data)}")
+                            return None
+                    except Exception as inner_e:
+                        st.error(f"Error converting JSON to DataFrame: {inner_e}")
+                        # Print the structure to help debug
+                        st.code(f"JSON structure: {str(json_data)[:500]}...")
+                        return None
+                    
             elif 'csv' in content_type:
                 return pd.read_csv(StringIO(response.text))
             else:
@@ -28,9 +95,12 @@ def fetch_data_gov_api(api_url):
                 return None
         else:
             st.error(f"API request failed with status code: {response.status_code}")
+            st.error(f"Response content: {response.text[:200]}...")
             return None
     except Exception as e:
         st.error(f"Error fetching API data: {e}")
+        # Print additional debug info
+        st.code(f"API URL: {api_url}")
         return None
 
 # Function to load cached data or fallback to mock data
@@ -42,6 +112,12 @@ def load_api_data(api_url, mock_data_path=None):
     # First try the API
     df = fetch_data_gov_api(api_url)
     
+    # # Log what happened
+    # if df is not None:
+    #     st.success(f"Successfully loaded {len(df)} records from API")
+    # else:
+    #     st.warning("Could not load data from API, falling back to mock data")
+    
     # If API fails and mock data is provided, use mock data
     if df is None and mock_data_path:
         try:
@@ -49,7 +125,7 @@ def load_api_data(api_url, mock_data_path=None):
                 df = pd.read_csv(mock_data_path)
             elif mock_data_path.endswith('.json'):
                 df = pd.read_json(mock_data_path)
-            st.info("Using cached data. Connect to API for latest information.")
+            st.info(f"Using mock data with {len(df)} records")
         except Exception as e:
             st.error(f"Error loading mock data: {e}")
             return None
@@ -59,7 +135,7 @@ def load_api_data(api_url, mock_data_path=None):
 # Heritage Sites Data
 def load_heritage_sites_data():
     # API URL for heritage sites
-    api_url = "https://api.data.gov.in/resource/heritage-sites"
+    api_url = "https://api.data.gov.in/resource/3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69?api-key=579b464db66ec23bdd000001603d17f141f643e07a5be86c67b2f7b6&format=json&limit=1000"
     
     # Mock data path (fallback)
     mock_data_path = "data/mock_heritage_sites.csv"
@@ -69,19 +145,56 @@ def load_heritage_sites_data():
 
 # Tourist Visits Data
 def load_tourist_visits_data():
-    # API URL for tourist visits
-    api_url = "https://api.data.gov.in/resource/tourist-visits-statistics"
+    """
+    Fetches and transforms tourist visits data from data.gov.in API
+    """
+    api_url = "https://api.data.gov.in/resource/1d118b7d-e870-4666-b77b-9ff823382494?api-key=579b464db66ec23bdd000001603d17f141f643e07a5be86c67b2f7b6&format=json&limit=100000"
     
-    # Mock data path (fallback)
+    df = fetch_data_gov_api(api_url)
+    
+    if df is not None and not df.empty:
+        # Transform the data from wide to long format
+        transformed_data = []
+        
+        for _, row in df.iterrows():
+            # 2016 data
+            transformed_data.append({
+                'state': row['states'],
+                'year': 2016,
+                'domestic_tourists': row['_2016___dtv'],
+                'foreign_tourists': row['_2016___ftv']
+            })
+            
+            # 2017 data
+            transformed_data.append({
+                'state': row['states'],
+                'year': 2017,
+                'domestic_tourists': row['_2017___dtv'],
+                'foreign_tourists': row['_2017___ftv']
+            })
+            
+            # 2018 data
+            transformed_data.append({
+                'state': row['states'],
+                'year': 2018,
+                'domestic_tourists': row['_2018__revised____dtv'],
+                'foreign_tourists': row['_2018__revised____ftv']
+            })
+        
+        return pd.DataFrame(transformed_data)
+    
+    # If API fails, use mock data
     mock_data_path = "data/mock_tourist_visits.csv"
-    
-    # Load data
-    return load_api_data(api_url, mock_data_path)
+    try:
+        return pd.read_csv(mock_data_path)
+    except Exception as e:
+        st.error(f"Error loading mock data: {e}")
+        return None
 
 # Performing Arts Data
 def load_performing_arts_data():
     # API URL for performing arts
-    api_url = "https://api.data.gov.in/resource/performing-arts-directory"
+    api_url = "https://api.data.gov.in/resource/1d118b7d-e870-4666-b77b-9ff823382494?api-key=579b464db66ec23bdd000001603d17f141f643e07a5be86c67b2f7b6&format=json&limit=100"
     
     # Mock data path (fallback)
     mock_data_path = "data/mock_performing_arts.csv"
@@ -95,8 +208,30 @@ def visualize_heritage_sites(heritage_df):
     Creates visualizations for heritage sites data
     """
     if heritage_df is None or heritage_df.empty:
-        st.warning("No heritage sites data available.")
-        return
+        st.warning("No heritage sites data available. Using mock data for visualization.")
+        # Generate simple mock data for visualization
+        heritage_df = pd.DataFrame({
+            'site_name': [
+                'Taj Mahal', 'Red Fort', 'Qutub Minar', 'Ajanta Caves', 'Ellora Caves',
+                'Sun Temple', 'Khajuraho Temples', 'Mahabalipuram', 'Hampi', 'Fatehpur Sikri'
+            ],
+            'site_type': [
+                'Monument', 'Fort', 'Monument', 'Cave', 'Cave',
+                'Temple', 'Temple', 'Temple', 'Archaeological Site', 'Historical City'
+            ],
+            'state': [
+                'Uttar Pradesh', 'Delhi', 'Delhi', 'Maharashtra', 'Maharashtra',
+                'Odisha', 'Madhya Pradesh', 'Tamil Nadu', 'Karnataka', 'Uttar Pradesh'
+            ],
+            'latitude': [
+                27.1751, 28.6562, 28.5245, 20.5519, 20.0258,
+                19.8876, 24.8318, 12.6269, 15.3350, 27.0940
+            ],
+            'longitude': [
+                78.0421, 77.2410, 77.1855, 75.7003, 75.1772,
+                85.8513, 79.9199, 80.1928, 76.4600, 77.6710
+            ]
+        })
     
     st.markdown("<h3 class='section-title'>Heritage Sites Analysis</h3>", unsafe_allow_html=True)
     
@@ -428,11 +563,11 @@ def data_insights_dashboard():
     """
     Main function to display the Data Insights dashboard
     """
-    st.markdown("<h1 class='main-header'>Data Insights Dashboard</h1>", unsafe_allow_html=True)
-    st.markdown("<p class='sub-header'>Exploring real-time data on India's cultural heritage and tourism</p>", unsafe_allow_html=True)
+    # st.markdown("<h1 class='main-header'>Data Insights Dashboard</h1>", unsafe_allow_html=True)
+    # st.markdown("<p class='sub-header'>Exploring real-time data on India's cultural heritage and tourism</p>", unsafe_allow_html=True)
     
     # Add a notice about real-time data
-    st.info("This dashboard connects to data.gov.in APIs to fetch the latest information on heritage sites, tourism statistics, and cultural arts.")
+    # st.info("This dashboard connects to data.gov.in APIs to fetch the latest information on heritage sites, tourism statistics, and cultural arts.")
     
     # Tabs for different data categories
     tab1, tab2, tab3 = st.tabs(["🏛️ Heritage Sites", "🧳 Tourist Visits", "🎭 Performing Arts"])
