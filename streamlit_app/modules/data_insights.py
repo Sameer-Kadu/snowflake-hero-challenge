@@ -94,8 +94,6 @@ def fetch_data_gov_api(api_url):
                 st.error(f"Unsupported content type: {content_type}")
                 return None
         else:
-            st.error(f"API request failed with status code: {response.status_code}")
-            st.error(f"Response content: {response.text[:200]}...")
             return None
     except Exception as e:
         st.error(f"Error fetching API data: {e}")
@@ -125,7 +123,6 @@ def load_api_data(api_url, mock_data_path=None):
                 df = pd.read_csv(mock_data_path)
             elif mock_data_path.endswith('.json'):
                 df = pd.read_json(mock_data_path)
-            st.info(f"Using mock data with {len(df)} records")
         except Exception as e:
             st.error(f"Error loading mock data: {e}")
             return None
@@ -194,7 +191,7 @@ def load_tourist_visits_data():
 # Performing Arts Data
 def load_performing_arts_data():
     # API URL for performing arts
-    api_url = "https://api.data.gov.in/resource/1d118b7d-e870-4666-b77b-9ff823382494?api-key=579b464db66ec23bdd000001603d17f141f643e07a5be86c67b2f7b6&format=json&limit=100"
+    api_url = "https://api.data.gov.in/resrce/1d118b7d-e870-4666-b77b-9ff823382494?api-key=579b464db66ec23bdd000001603d17f141f643e07a5be86c67b2f7b6&format=json&limit=100"
     
     # Mock data path (fallback)
     mock_data_path = "data/mock_performing_arts.csv"
