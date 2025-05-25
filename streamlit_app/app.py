@@ -1125,6 +1125,8 @@ elif page == "ℹ️ About":
         {"name": "Sameer K. (Project Lead)", "role": "Data Scientist & Cultural Researcher"},
         {"name": "Sameer K. & Sagar G. (Snowflake Developer)", "role": "Backend Data Engineering Specialist"},
         {"name": "Sameer K. & Subodh K. (Streamlit Developer)", "role": "Frontend Visualization Expert"},
+        {"name": "Hemant J. & Sagar G. (Data Analyst)", "role": "Tourism Data Insights Specialist"},
+        {"name": "Rushikesh D. & Sagar G. (UX/UI Designer)", "role": "User Experience and Interface Designer"},
         {"name": "Subodh K. & Sagar G. (Cultural Consultant)", "role": "Subject Matter Expert in Indian Art Forms"}
     ]
     
