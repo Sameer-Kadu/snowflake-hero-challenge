@@ -1122,10 +1122,10 @@ elif page == "ℹ️ About":
     st.markdown("<h3 class='section-title'>Meet the Team</h3>", unsafe_allow_html=True)
     
     team_members = [
-        {"name": "Project Lead", "role": "Data Scientist & Cultural Researcher"},
-        {"name": "Snowflake Developer", "role": "Backend Data Engineering Specialist"},
-        {"name": "Streamlit Developer", "role": "Frontend Visualization Expert"},
-        {"name": "Cultural Consultant", "role": "Subject Matter Expert in Indian Art Forms"}
+        {"name": "Sameer K. (Project Lead)", "role": "Data Scientist & Cultural Researcher"},
+        {"name": "Sameer K. & Sagar G. (Snowflake Developer)", "role": "Backend Data Engineering Specialist"},
+        {"name": "Sameer K. & Subodh K. (Streamlit Developer)", "role": "Frontend Visualization Expert"},
+        {"name": "Subodh K. & Sagar G. (Cultural Consultant)", "role": "Subject Matter Expert in Indian Art Forms"}
     ]
     
     # Display team members in two columns
@@ -1145,8 +1145,8 @@ elif page == "ℹ️ About":
     st.markdown("""
     <div class='card'>
         <p>For more information about this project or to provide feedback, please contact:</p>
-        <p><b>Email:</b> indiacultureexplorer@example.com</p>
-        <p><b>GitHub:</b> github.com/indiacultureexplorer</p>
+        <p><b>Email:</b> Samirkadu8@gmail.com </p>
+        <p><b>GitHub:</b> https://github.com/Sameer-Kadu </p>
     </div>
     """, unsafe_allow_html=True)
 
